@@ -26,6 +26,7 @@ public class RestaurantMapperImpl implements Mapper<Restaurant, RestaurantDTORes
         dto.setRating(entity.getRating());
         dto.setDescription(entity.getDescription());
         dto.setOpened(entity.isOpened());
+        dto.setRole(entity.getRole());
         return dto;
     }
 
@@ -42,6 +43,7 @@ public class RestaurantMapperImpl implements Mapper<Restaurant, RestaurantDTORes
         entity.setRating(dto.getRating());
         entity.setDescription(dto.getDescription());
         entity.setOpened(dto.isOpened());
+        entity.setRole(dto.getRole());
         return entity;
     }
 

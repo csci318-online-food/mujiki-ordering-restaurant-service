@@ -4,6 +4,7 @@ import com.csci318.microservice.restaurant.Constants.CuisineType;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
+import com.csci318.microservice.restaurant.Entities.Relations.Address;
 import com.csci318.microservice.restaurant.Services.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/restaurant")
@@ -20,6 +22,11 @@ public class RestaurantController {
 
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
+    }
+
+    @GetMapping
+    public List<RestaurantDTOResponse> getAllRestaurants() {
+        return restaurantService.getAllRestaurants();
     }
 
     @PostMapping("/signup")
@@ -62,5 +69,10 @@ public class RestaurantController {
     @GetMapping("/{email}")
     public RestaurantDTOResponse findRestaurantByEmail(@PathVariable String email) {
         return restaurantService.getRestaurantByEmail(email);
+    }
+
+    @GetMapping("/address/{restaurantId}")
+    public Address getAddressByRestaurant(@PathVariable UUID restaurantId) {
+        return restaurantService.getAddressByRestaurant(restaurantId);
     }
 }

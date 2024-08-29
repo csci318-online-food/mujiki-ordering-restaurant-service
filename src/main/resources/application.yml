@@ -37,3 +37,7 @@ server:
 user:
   url:
     service: http://localhost:81/api/user
+
+address:
+  url:
+    service: http://localhost:83/api/address

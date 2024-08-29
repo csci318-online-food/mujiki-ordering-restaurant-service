@@ -1,6 +1,7 @@
 package com.csci318.microservice.restaurant.DTOs;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
+import com.csci318.microservice.restaurant.Constants.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,5 @@ public class RestaurantDTORequest {
     private Double rating;
     private String description;
     private boolean isOpened;
-    private String role;
+    private Roles role;
 }
