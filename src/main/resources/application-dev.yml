@@ -1,0 +1,6 @@
+spring:
+  profiles: dev
+  server:
+    port: 82
+  user-service:
+    url: http://localhost:82
