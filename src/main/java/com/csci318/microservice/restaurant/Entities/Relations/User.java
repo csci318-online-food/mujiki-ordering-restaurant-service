@@ -1,4 +1,4 @@
-package com.csci318.microservice.restaurant.Entities;
+package com.csci318.microservice.restaurant.Entities.Relations;
 
 import com.csci318.microservice.restaurant.Constants.Roles;
 import jakarta.persistence.*;

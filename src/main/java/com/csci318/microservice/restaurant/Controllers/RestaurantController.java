@@ -22,7 +22,7 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     @ManagedOperation(description = "Create a new restaurant")
     public ResponseEntity<RestaurantDTOResponse> createRestaurant(@RequestBody RestaurantDTORequest restaurantDTORequest) {
         RestaurantDTOResponse responseDTO = restaurantService.createRestaurant(restaurantDTORequest);
@@ -56,5 +56,11 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.OK)
                 .header("Message", "Return the filtered restaurants successfully")
                 .body(filteredRestaurants);
+    }
+
+
+    @GetMapping("/{email}")
+    public RestaurantDTOResponse findRestaurantByEmail(@PathVariable String email) {
+        return restaurantService.getRestaurantByEmail(email);
     }
 }

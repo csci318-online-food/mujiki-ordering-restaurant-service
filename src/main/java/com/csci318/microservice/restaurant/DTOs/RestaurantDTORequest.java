@@ -23,4 +23,5 @@ public class RestaurantDTORequest {
     private Double rating;
     private String description;
     private boolean isOpened;
+    private String role;
 }

@@ -10,4 +10,5 @@ public interface RestaurantService {
 
     RestaurantDTOResponse createRestaurant(RestaurantDTORequest restaurantDTORequest);
     List<RestaurantDTOResponse> filterRestaurants(RestaurantDTOFilterRequest filterReq);
+    RestaurantDTOResponse getRestaurantByEmail(String email);
 }

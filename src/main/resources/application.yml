@@ -32,3 +32,8 @@ server:
     whitelabel:
       enabled: false
   port: 82
+
+# API Configuration
+user:
+  url:
+    service: http://localhost:81/api/user
