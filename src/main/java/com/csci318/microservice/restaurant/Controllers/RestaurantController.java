@@ -36,6 +36,14 @@ public class RestaurantController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantDTOResponse> updateRestaurant(
+            @PathVariable UUID id,
+            @RequestBody RestaurantDTORequest restaurantDTORequest) {
+        RestaurantDTOResponse updatedRestaurant = restaurantService.updateRestaurant(id, restaurantDTORequest);
+        return ResponseEntity.ok(updatedRestaurant);
+    }
+
     @GetMapping("/search")
     @ManagedOperation(description = "Search for restaurants with filter options")
     public ResponseEntity<List<RestaurantDTOResponse>> filterRestaurants(
@@ -64,8 +72,7 @@ public class RestaurantController {
                 .header("Message", "Return the filtered restaurants successfully")
                 .body(filteredRestaurants);
     }
-
-
+    
     @GetMapping("/{email}")
     public RestaurantDTOResponse findRestaurantByEmail(@PathVariable String email) {
         return restaurantService.getRestaurantByEmail(email);

@@ -197,8 +197,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
-
-
     // Event registration handler for restaurant
     private void publishRestaurantEvent(Restaurant restaurant, String eventName, String details) {
         RestaurantEvent event = new RestaurantEvent();

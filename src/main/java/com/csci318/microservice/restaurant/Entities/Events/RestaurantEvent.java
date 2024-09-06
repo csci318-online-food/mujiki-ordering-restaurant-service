@@ -1,46 +1,47 @@
 package com.csci318.microservice.restaurant.Entities.Events;
 
+import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
 import java.util.UUID;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "restaurant_event")
 public class RestaurantEvent {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column
+    @Column(name = "event_name")
     private String eventName;
 
-    @Column
+    @Column(name = "restaurant_id")
     private UUID restaurantId;
 
-    @Column
+    @Column(name = "restaurant_name")
     private String restaurantName;
 
-    @Column
+    @Column(name = "details")
     private String details;
 
-    public RestaurantEvent() {}
+    @Embedded
+    private PhoneNumber phoneNumber;
 
-    // Getters and Setters
+    public RestaurantEvent() {}
 
     @Override
     public String toString() {
         return "RestaurantEvent{" +
                 "eventName='" + eventName + '\'' +
-                ", restaurantId='" + restaurantId + '\'' +
+                ", restaurantId=" + restaurantId +
                 ", restaurantName='" + restaurantName + '\'' +
                 ", details='" + details + '\'' +
+                ", phoneNumber=" + phoneNumber +
                 '}';
     }
 }
-

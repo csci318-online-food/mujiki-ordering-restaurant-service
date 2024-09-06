@@ -42,3 +42,13 @@ CREATE TABLE IF NOT EXISTS restaurant (
     modify_by varchar(64),
     create_by varchar(64)
     );
+
+CREATE TABLE restaurant_event (
+  id UUID PRIMARY KEY,
+  event_name VARCHAR(255) NOT NULL,
+  restaurant_id UUID NOT NULL,
+  restaurant_name VARCHAR(255) NOT NULL,
+  details TEXT,
+  country_code VARCHAR(255),
+  number VARCHAR(255)
+);

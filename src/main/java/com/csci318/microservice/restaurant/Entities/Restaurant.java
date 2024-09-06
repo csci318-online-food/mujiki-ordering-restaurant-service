@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.sql.Timestamp;
@@ -44,9 +43,8 @@ public class Restaurant extends AbstractAggregateRoot<Restaurant> {
     @Column(name = "close_time")
     private LocalTime closeTime;
 
-    @Column(name = "phone_number")
+    @Embedded
     private PhoneNumber restaurantPhone;
-
 
     @Column(name = "email", unique = true)
     private String email;
@@ -83,6 +81,7 @@ public class Restaurant extends AbstractAggregateRoot<Restaurant> {
         event.setRestaurantId(this.getId());
         event.setRestaurantName(this.getRestaurantName());
         event.setDetails("Restaurant registered successfully.");
+        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
         registerEvent(event); // Method from AbstractAggregateRoot
     }
 
@@ -93,6 +92,7 @@ public class Restaurant extends AbstractAggregateRoot<Restaurant> {
         event.setRestaurantId(this.getId());
         event.setRestaurantName(this.getRestaurantName());
         event.setDetails("Details updated to: Name - " + newName + ", Address - " + newAddress);
+        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
         registerEvent(event);  // Method from AbstractAggregateRoot
     }
 }
