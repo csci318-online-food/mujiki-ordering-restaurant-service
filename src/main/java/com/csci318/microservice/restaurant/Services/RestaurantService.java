@@ -12,6 +12,7 @@ public interface RestaurantService {
 
     List<RestaurantDTOResponse> getAllRestaurants();
     RestaurantDTOResponse createRestaurant(RestaurantDTORequest restaurantDTORequest);
+    RestaurantDTOResponse updateRestaurant(UUID id, RestaurantDTORequest restaurantDTORequest);
     List<RestaurantDTOResponse> filterRestaurants(RestaurantDTOFilterRequest filterReq);
     RestaurantDTOResponse getRestaurantByEmail(String email);
     Address getAddressByRestaurant(UUID restaurantId);

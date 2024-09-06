@@ -2,11 +2,15 @@ package com.csci318.microservice.restaurant.Entities;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
 import com.csci318.microservice.restaurant.Constants.Roles;
+import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
+import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.sql.Timestamp;
 import java.time.LocalTime;
@@ -18,7 +22,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "restaurant")
-public class Restaurant {
+public class Restaurant extends AbstractAggregateRoot<Restaurant> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,8 +44,9 @@ public class Restaurant {
     @Column(name = "close_time")
     private LocalTime closeTime;
 
-    @Column(name = "phone")
-    private String restaurantPhone;
+    @Column(name = "phone_number")
+    private PhoneNumber restaurantPhone;
+
 
     @Column(name = "email", unique = true)
     private String email;
@@ -70,4 +75,24 @@ public class Restaurant {
 
     @Column(name = "create_by")
     private String createBy;
+
+    // Event registration handler
+    public void registerRestaurant() {
+        RestaurantEvent event = new RestaurantEvent();
+        event.setEventName("register");
+        event.setRestaurantId(this.getId());
+        event.setRestaurantName(this.getRestaurantName());
+        event.setDetails("Restaurant registered successfully.");
+        registerEvent(event); // Method from AbstractAggregateRoot
+    }
+
+    public void updateDetails(String newName, String newAddress) {
+        this.restaurantName = newName;
+        RestaurantEvent event = new RestaurantEvent();
+        event.setEventName("update_details");
+        event.setRestaurantId(this.getId());
+        event.setRestaurantName(this.getRestaurantName());
+        event.setDetails("Details updated to: Name - " + newName + ", Address - " + newAddress);
+        registerEvent(event);  // Method from AbstractAggregateRoot
+    }
 }

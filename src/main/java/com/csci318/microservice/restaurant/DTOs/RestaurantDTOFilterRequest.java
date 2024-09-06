@@ -1,6 +1,7 @@
 package com.csci318.microservice.restaurant.DTOs;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
+import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.LocalTime;
 @Setter
 public class RestaurantDTOFilterRequest {
     private String name;
-    private String phone;
+    private PhoneNumber phone;
     private LocalTime openTime;
     private LocalTime closeTime;
     private CuisineType cuisine;

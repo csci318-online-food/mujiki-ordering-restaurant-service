@@ -6,7 +6,6 @@ public class RestaurantCreatedEvent {
     public RestaurantCreatedEvent(RestaurantDTOResponse restaurant) {
         this.restaurant = restaurant;
     }
-
     public RestaurantDTOResponse getRestaurant() {
         return restaurant;
     }

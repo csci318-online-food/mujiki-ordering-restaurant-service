@@ -18,7 +18,7 @@ public class RestaurantMapperImpl implements Mapper<Restaurant, RestaurantDTORes
         RestaurantDTOResponse dto = new RestaurantDTOResponse();
         dto.setId(entity.getId());
         dto.setRestaurantName(entity.getRestaurantName());
-        dto.setRestaurantPhone(entity.getRestaurantPhone());
+        dto.setPhone(entity.getRestaurantPhone());
         dto.setEmail(entity.getEmail());
         dto.setCuisine(entity.getCuisine());
         dto.setOpenTime(entity.getOpenTime());

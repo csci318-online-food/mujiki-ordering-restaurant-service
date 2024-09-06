@@ -1,9 +1,12 @@
+// src/main/java/com/csci318/microservice/restaurant/Services/Impl/RestaurantServiceImpl.java
+
 package com.csci318.microservice.restaurant.Services.Impl;
 
 import com.csci318.microservice.restaurant.Constants.Roles;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
+import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
 import com.csci318.microservice.restaurant.Entities.Relations.Address;
 import com.csci318.microservice.restaurant.Entities.Restaurant;
 import com.csci318.microservice.restaurant.Exceptions.ServiceExceptionHandler.ErrorTypes;
@@ -12,8 +15,9 @@ import com.csci318.microservice.restaurant.Mappers.Impl.RestaurantMapperImpl;
 import com.csci318.microservice.restaurant.Repositories.RestaurantRepository;
 import com.csci318.microservice.restaurant.Services.RestaurantService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -30,6 +34,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapperImpl restaurantMapper;
     private final ApplicationEventPublisher eventPublisher;
+
+    @Value("${address.url.service}")
+    private String addressUrl;
 
     public RestaurantServiceImpl(RestTemplate restTemplate, RestaurantRepository restaurantRepository, RestaurantMapperImpl restaurantMapper, ApplicationEventPublisher eventPublisher) {
         this.restTemplate = restTemplate;
@@ -77,7 +84,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             RestaurantDTOResponse responseDTO = this.restaurantMapper.toDtos(savedRestaurant);
 
             log.info("Restaurant created successfully with id: {}", savedRestaurant.getId());
-            eventPublisher.publishEvent(responseDTO);
+            publishRestaurantEvent(savedRestaurant, "register", "Restaurant registered successfully.");
             return responseDTO;
 
         } catch (ServiceException e) {
@@ -85,6 +92,34 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw e;
         } catch (Exception e) {
             log.error("Unexpected error occurred while creating restaurant: {}", e.getMessage(), e);
+            throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public RestaurantDTOResponse updateRestaurant(UUID id, RestaurantDTORequest restaurantDTORequest) {
+        try {
+            log.info("Updating restaurant with id: {} and request: {}", id, restaurantDTORequest);
+            Restaurant restaurant = restaurantRepository.findById(id)
+                    .orElseThrow(() -> new ServiceException(ErrorTypes.RESTAURANT_NOT_FOUND.getMessage(), null, ErrorTypes.RESTAURANT_NOT_FOUND));
+
+            restaurant.setRestaurantName(restaurantDTORequest.getName());
+            restaurant.setCuisine(restaurantDTORequest.getCuisine());
+            restaurant.setOpened(restaurantDTORequest.isOpened());
+
+            Restaurant updatedRestaurant = restaurantRepository.save(restaurant);
+            RestaurantDTOResponse responseDTO = this.restaurantMapper.toDtos(updatedRestaurant);
+
+            log.info("Restaurant updated successfully with id: {}", updatedRestaurant.getId());
+            publishRestaurantEvent(updatedRestaurant, "update_details", "Details updated to: Name - " + restaurantDTORequest.getName());
+            return responseDTO;
+
+        } catch (ServiceException e) {
+            log.error("Service exception: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error occurred while updating restaurant: {}", e.getMessage(), e);
             throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
         }
     }
@@ -146,12 +181,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
+    // Linking services
     @Override
     public Address getAddressByRestaurant(UUID restaurantId) {
         try {
             Restaurant restaurant = restaurantRepository.findById(restaurantId)
                     .orElseThrow(() -> new ServiceException(ErrorTypes.RESTAURANT_NOT_FOUND.getMessage(), null, ErrorTypes.RESTAURANT_NOT_FOUND));
-                return restTemplate.getForObject("http://localhost:83/forRestaurant/" + restaurantId, Address.class);
+                return restTemplate.getForObject(addressUrl + "/" + restaurant.getId(), Address.class);
         } catch (ServiceException e) {
             log.error("Service exception: {}", e.getMessage(), e);
             throw e;
@@ -159,5 +195,17 @@ public class RestaurantServiceImpl implements RestaurantService {
             log.error("Unexpected error occurred while retrieving restaurant by id: ", e);
             throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
         }
+    }
+
+
+
+    // Event registration handler for restaurant
+    private void publishRestaurantEvent(Restaurant restaurant, String eventName, String details) {
+        RestaurantEvent event = new RestaurantEvent();
+        event.setEventName(eventName);
+        event.setRestaurantId(restaurant.getId());
+        event.setRestaurantName(restaurant.getRestaurantName());
+        event.setDetails(details);
+        eventPublisher.publishEvent(event);
     }
 }
