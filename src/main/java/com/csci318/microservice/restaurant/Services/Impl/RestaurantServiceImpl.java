@@ -203,6 +203,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         event.setEventName(eventName);
         event.setRestaurantId(restaurant.getId());
         event.setRestaurantName(restaurant.getRestaurantName());
+        event.setPhoneNumber(restaurant.getRestaurantPhone());
         event.setDetails(details);
         eventPublisher.publishEvent(event);
     }
