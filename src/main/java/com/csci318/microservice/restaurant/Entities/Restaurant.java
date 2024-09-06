@@ -24,7 +24,7 @@ import java.util.UUID;
 public class Restaurant extends AbstractAggregateRoot<Restaurant> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "name")

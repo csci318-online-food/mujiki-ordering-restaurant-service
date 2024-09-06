@@ -73,6 +73,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         try {
             log.info("Creating restaurant with request: {}", restaurantDTORequest);
             Restaurant restaurant = this.restaurantMapper.toEntities(restaurantDTORequest);
+            // TODO: Control UUID generation.
+            restaurant.setId(UUID.randomUUID());
 
             if (restaurantRepository.existsByEmail(restaurant.getEmail())) {
                 log.error("Restaurant with email {} already exists", restaurant.getEmail());
