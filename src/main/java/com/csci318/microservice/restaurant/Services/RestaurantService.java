@@ -16,4 +16,5 @@ public interface RestaurantService {
     List<RestaurantDTOResponse> filterRestaurants(RestaurantDTOFilterRequest filterReq);
     RestaurantDTOResponse getRestaurantByEmail(String email);
     Address getAddressByRestaurant(UUID restaurantId);
+    RestaurantDTOResponse getRestaurantById(UUID id);
 }

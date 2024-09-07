@@ -68,6 +68,23 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public RestaurantDTOResponse getRestaurantById(UUID id) {
+        try {
+            log.info("Retrieving restaurant with id: {}", id);
+            Restaurant restaurant = restaurantRepository.findById(id)
+                    .orElseThrow(() -> new ServiceException(ErrorTypes.RESTAURANT_NOT_FOUND.getMessage(), null, ErrorTypes.RESTAURANT_NOT_FOUND));
+            return restaurantMapper.toDtos(restaurant);
+        } catch (ServiceException e) {
+            log.error("Service exception: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error occurred while retrieving restaurant by id: ", e);
+            throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
+        }
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public RestaurantDTOResponse createRestaurant(RestaurantDTORequest restaurantDTORequest) {
         try {
