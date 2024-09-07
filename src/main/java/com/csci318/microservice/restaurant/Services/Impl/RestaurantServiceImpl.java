@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -143,13 +144,19 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
     }
 
-    @Override
-    @Transactional(readOnly = true)
     public List<RestaurantDTOResponse> filterRestaurants(RestaurantDTOFilterRequest filterReq) {
         try {
             log.info("Filtering restaurants with request: {}", filterReq);
             List<Restaurant> allRestaurants = restaurantRepository.findAll();
             log.info("Found {} restaurants in the database", allRestaurants.size());
+
+            // Check if filter request is empty
+            if (isFilterRequestEmpty(filterReq)) {
+                log.info("No filter applied, returning all restaurants");
+                return allRestaurants.stream()
+                        .map(restaurantMapper::toDtos)
+                        .collect(Collectors.toList());
+            }
 
             List<RestaurantDTOResponse> filteredRestaurants = new ArrayList<>();
             for (Restaurant restaurant : allRestaurants) {
@@ -159,7 +166,14 @@ public class RestaurantServiceImpl implements RestaurantService {
                 }
             }
 
-            log.info("Found {} restaurants matching the filter criteria", filteredRestaurants.size());
+            if (filteredRestaurants.isEmpty()) {
+                log.info("No restaurants found matching the filter criteria");
+                // Return emtpy list
+                return new ArrayList<>();
+            } else {
+                log.info("Found {} restaurants matching the filter criteria", filteredRestaurants.size());
+            }
+
             return filteredRestaurants;
 
         } catch (ServiceException e) {
@@ -169,6 +183,15 @@ public class RestaurantServiceImpl implements RestaurantService {
             log.error("Unexpected error occurred while filtering restaurants: {}", e.getMessage(), e);
             throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
         }
+    }
+
+    private boolean isFilterRequestEmpty(RestaurantDTOFilterRequest filterReq) {
+        return (filterReq.getName() == null || filterReq.getName().isEmpty()) &&
+                (filterReq.getCuisine() == null) &&
+                (filterReq.getMinRating() == null) &&
+                (filterReq.getMaxRating() == null) &&
+                (filterReq.getPostcode() == null || filterReq.getPostcode().isEmpty()) &&
+                !filterReq.isOpened(); // Checks if isOpened is false
     }
 
     private boolean restaurantMatchesFilters(Restaurant restaurant, RestaurantDTOFilterRequest filterRequest) {
@@ -187,19 +210,21 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
 
             // Check postcode filter
-            if (filterRequest.getPostcode() == null) {
-                return true; // No postcode filter applied
+            if (filterRequest.getPostcode() != null && !filterRequest.getPostcode().isEmpty()) {
+                if (address == null || !address.getPostcode().equals(filterRequest.getPostcode())) {
+                    return false;
+                }
             }
 
-            // Ensure address is not null and compare postcode
-            assert address != null;
-            return address.getPostcode().equals(filterRequest.getPostcode());
+            return true;
 
         } catch (Exception e) {
             log.error("Error occurred while applying filters to restaurant {}: ", restaurant.getId(), e);
             throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
         }
     }
+
+
 
     @Override
     @Transactional

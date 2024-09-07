@@ -67,6 +67,7 @@ public class RestaurantController {
         filterReq.setMinRating(minRating);
         filterReq.setMaxRating(maxRating);
         filterReq.setOpened(opened != null && opened);
+        filterReq.setPostcode(postcode);
 
         List<RestaurantDTOResponse> filteredRestaurants = restaurantService.filterRestaurants(filterReq);
 
