@@ -22,4 +22,5 @@ public class RestaurantDTOFilterRequest {
     private Double minRating;
     private Double maxRating;
     private boolean isOpened;
+    private String postcode; // From address table (NOTE)
 }

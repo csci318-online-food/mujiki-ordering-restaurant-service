@@ -3,15 +3,28 @@ package com.csci318.microservice.restaurant.Mappers.Impl;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
+import com.csci318.microservice.restaurant.Entities.Relations.Address;
 import com.csci318.microservice.restaurant.Entities.Restaurant;
 import com.csci318.microservice.restaurant.Mappers.Mapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class RestaurantMapperImpl implements Mapper<Restaurant, RestaurantDTOResponse, RestaurantDTORequest> {
+
+    private final RestTemplate restTemplate;
+
+    @Value("${address.url.service}")
+    private String ADDRESS_URL;
+
+    public RestaurantMapperImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
 
     @Override
     public RestaurantDTOResponse toDtos(Restaurant entity) {
@@ -65,15 +78,22 @@ public class RestaurantMapperImpl implements Mapper<Restaurant, RestaurantDTORes
         return restaurants;
     }
 
-    public Restaurant toFilteredEntity(RestaurantDTOFilterRequest dto) {
-        Restaurant entity = new Restaurant();
-        entity.setRestaurantName(dto.getName());
-        entity.setRestaurantPhone(dto.getPhone());
-        entity.setCuisine(dto.getCuisine());
-        entity.setOpenTime(dto.getOpenTime());
-        entity.setCloseTime(dto.getCloseTime());
-        entity.setRating(dto.getMinRating()); // Assuming minRating is used for setting rating
-        entity.setOpened(dto.isOpened());
-        return entity;
-    }
+public Restaurant toFilteredEntity(RestaurantDTOFilterRequest dto, Restaurant restaurant) {
+    Restaurant entity = new Restaurant();
+    entity.setRestaurantName(dto.getName());
+    entity.setRestaurantPhone(dto.getPhone());
+    entity.setCuisine(dto.getCuisine());
+    entity.setOpenTime(dto.getOpenTime());
+    entity.setCloseTime(dto.getCloseTime());
+    entity.setRating(dto.getMinRating()); // Assuming minRating is used for setting rating
+    entity.setOpened(dto.isOpened());
+
+    // Fetching the address from the external service
+    Address address = restTemplate.getForObject(ADDRESS_URL + "/forRestaurant/" + restaurant.getId(), Address.class);
+
+    // Assuming Address entity has a method to set restaurantId
+    address.setRestaurantId(String.valueOf(restaurant.getId()));
+
+    return entity;
+}
 }

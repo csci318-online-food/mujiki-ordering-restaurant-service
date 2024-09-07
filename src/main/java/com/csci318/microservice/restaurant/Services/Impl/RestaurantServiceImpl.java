@@ -173,11 +173,28 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private boolean restaurantMatchesFilters(Restaurant restaurant, RestaurantDTOFilterRequest filterRequest) {
         try {
-            return (filterRequest.getName() == null || restaurant.getRestaurantName().toLowerCase().contains(filterRequest.getName().toLowerCase()))
-                    && (filterRequest.getCuisine() == null || restaurant.getCuisine().equals(filterRequest.getCuisine()))
-                    && (filterRequest.getMinRating() == null || restaurant.getRating() >= filterRequest.getMinRating())
-                    && (filterRequest.getMaxRating() == null || restaurant.getRating() <= filterRequest.getMaxRating())
-                    && (!filterRequest.isOpened() || restaurant.isOpened());
+            // Fetch address from address service
+            Address address = restTemplate.getForObject(addressUrl + "/forRestaurant/" + restaurant.getId(), Address.class);
+            log.info("Fetched address for restaurant {}: {}", restaurant.getId(), address);
+
+            // Apply filtering criteria
+            if ((filterRequest.getName() != null && !restaurant.getRestaurantName().toLowerCase().contains(filterRequest.getName().toLowerCase()))
+                    || (filterRequest.getCuisine() != null && !restaurant.getCuisine().equals(filterRequest.getCuisine()))
+                    || (filterRequest.getMinRating() != null && restaurant.getRating() < filterRequest.getMinRating())
+                    || (filterRequest.getMaxRating() != null && restaurant.getRating() > filterRequest.getMaxRating())
+                    || (filterRequest.isOpened() && !restaurant.isOpened())) {
+                return false;
+            }
+
+            // Check postcode filter
+            if (filterRequest.getPostcode() == null) {
+                return true; // No postcode filter applied
+            }
+
+            // Ensure address is not null and compare postcode
+            assert address != null;
+            return address.getPostcode().equals(filterRequest.getPostcode());
+
         } catch (Exception e) {
             log.error("Error occurred while applying filters to restaurant {}: ", restaurant.getId(), e);
             throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);

@@ -58,7 +58,8 @@ public class RestaurantController {
             @RequestParam(value = "cuisine", required = false) CuisineType cuisine,
             @RequestParam(value = "minRating", required = false) Double minRating,
             @RequestParam(value = "maxRating", required = false) Double maxRating,
-            @RequestParam(value = "opened", required = false) Boolean opened) {
+            @RequestParam(value = "opened", required = false) Boolean opened,
+            @RequestParam(value = "postcode", required = false) String postcode){
 
         RestaurantDTOFilterRequest filterReq = new RestaurantDTOFilterRequest();
         filterReq.setName(name);
