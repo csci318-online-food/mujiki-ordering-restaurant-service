@@ -31,13 +31,13 @@ server:
   error:
     whitelabel:
       enabled: false
-  port: 82
+  port: 8082
 
 # API Configuration
 user:
   url:
-    service: http://localhost:81/api/user
+    service: http://localhost:8081/api/user
 
 address:
   url:
-    service: http://localhost:86/api/address
+    service: http://localhost:8086/api/address
