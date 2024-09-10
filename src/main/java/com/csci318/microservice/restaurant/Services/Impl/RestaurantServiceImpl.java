@@ -86,6 +86,30 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public RestaurantDTOResponse updateRating(UUID id, double rating) {
+        try {
+            log.info("Updating rating for restaurant with id: {} to {}", id, rating);
+            Restaurant restaurant = restaurantRepository.findById(id)
+                    .orElseThrow(() -> new ServiceException(ErrorTypes.RESTAURANT_NOT_FOUND.getMessage(), null, ErrorTypes.RESTAURANT_NOT_FOUND));
+
+            restaurant.setRating(rating);
+            Restaurant updatedRestaurant = restaurantRepository.save(restaurant);
+            RestaurantDTOResponse responseDTO = this.restaurantMapper.toDtos(updatedRestaurant);
+
+            log.info("Rating updated successfully for restaurant with id: {}", updatedRestaurant.getId());
+            publishRestaurantEvent(updatedRestaurant, "update_rating", "Rating updated to: " + rating);
+            return responseDTO;
+
+        } catch (ServiceException e) {
+            log.error("Service exception: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error occurred while updating rating for restaurant: {}", e.getMessage(), e);
+            throw new ServiceException(ErrorTypes.UNEXPECTED_ERROR.getMessage(), e, ErrorTypes.UNEXPECTED_ERROR);
+        }
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public RestaurantDTOResponse createRestaurant(RestaurantDTORequest restaurantDTORequest) {
         try {

@@ -17,4 +17,5 @@ public interface RestaurantService {
     RestaurantDTOResponse getRestaurantByEmail(String email);
     Address getAddressByRestaurant(UUID restaurantId);
     RestaurantDTOResponse getRestaurantById(UUID id);
+    RestaurantDTOResponse updateRating(UUID id, double rating);
 }

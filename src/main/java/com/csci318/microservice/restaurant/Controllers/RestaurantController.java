@@ -91,4 +91,11 @@ public class RestaurantController {
     public Address getAddressByRestaurant(@PathVariable UUID restaurantId) {
         return restaurantService.getAddressByRestaurant(restaurantId);
     }
+
+    @PutMapping("{id}/rating/{rating}")
+    public ResponseEntity<RestaurantDTOResponse> updateRating(@PathVariable UUID id, @PathVariable double rating) {
+        RestaurantDTOResponse updatedRestaurant = restaurantService.updateRating(id, rating);
+        return ResponseEntity.ok(updatedRestaurant);
+    }
+
 }
