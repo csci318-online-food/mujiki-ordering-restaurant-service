@@ -34,10 +34,6 @@ server:
   port: 8082
 
 # API Configuration
-user:
-  url:
-    service: http://localhost:8081/api/user
-
 address:
   url:
     service: http://localhost:8086/api/address
