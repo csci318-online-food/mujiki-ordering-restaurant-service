@@ -1,7 +1,9 @@
-package com.csci318.microservice.restaurant.Entities.Events;
+package com.csci318.microservice.restaurant.Domain.Events;
 
-import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
 import java.util.UUID;
+
+import com.csci318.microservice.restaurant.Domain.ValueObjs.PhoneNumber;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.csci318.microservice.restaurant.Listeners;
 
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
-import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
+import com.csci318.microservice.restaurant.Domain.Events.RestaurantEvent;
 import com.csci318.microservice.restaurant.Repositories.RestaurantEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

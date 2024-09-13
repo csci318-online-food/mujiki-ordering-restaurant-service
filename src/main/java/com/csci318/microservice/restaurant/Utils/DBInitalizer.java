@@ -2,8 +2,8 @@ package com.csci318.microservice.restaurant.Utils;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
 import com.csci318.microservice.restaurant.Constants.Roles;
-import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
-import com.csci318.microservice.restaurant.Entities.Restaurant;
+import com.csci318.microservice.restaurant.Domain.Entities.Restaurant;
+import com.csci318.microservice.restaurant.Domain.ValueObjs.PhoneNumber;
 import com.csci318.microservice.restaurant.Repositories.RestaurantRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,8 @@
 package com.csci318.microservice.restaurant.Repositories;
 
-import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.csci318.microservice.restaurant.Domain.Events.RestaurantEvent;
 
 import java.util.List;
 import java.util.UUID;

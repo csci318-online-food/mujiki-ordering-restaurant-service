@@ -1,9 +1,10 @@
-package com.csci318.microservice.restaurant.Entities;
+package com.csci318.microservice.restaurant.Domain.Entities;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
 import com.csci318.microservice.restaurant.Constants.Roles;
-import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
-import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
+import com.csci318.microservice.restaurant.Domain.Events.RestaurantEvent;
+import com.csci318.microservice.restaurant.Domain.ValueObjs.PhoneNumber;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

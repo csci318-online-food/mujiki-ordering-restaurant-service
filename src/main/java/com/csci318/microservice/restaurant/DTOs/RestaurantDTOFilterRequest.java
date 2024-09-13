@@ -1,7 +1,8 @@
 package com.csci318.microservice.restaurant.DTOs;
 
 import com.csci318.microservice.restaurant.Constants.CuisineType;
-import com.csci318.microservice.restaurant.Entities.ObjValue.PhoneNumber;
+import com.csci318.microservice.restaurant.Domain.ValueObjs.PhoneNumber;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

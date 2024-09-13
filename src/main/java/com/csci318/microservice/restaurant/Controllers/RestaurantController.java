@@ -4,9 +4,8 @@ import com.csci318.microservice.restaurant.Constants.CuisineType;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
-import com.csci318.microservice.restaurant.Entities.Relations.Address;
-import com.csci318.microservice.restaurant.Entities.Relations.FeedbackEvent;
-import com.csci318.microservice.restaurant.Entities.Restaurant;
+import com.csci318.microservice.restaurant.Domain.Relations.Address;
+import com.csci318.microservice.restaurant.Domain.Relations.FeedbackEvent;
 import com.csci318.microservice.restaurant.Services.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +81,7 @@ public class RestaurantController {
                 .header("Message", "Return the filtered restaurants successfully")
                 .body(filteredRestaurants);
     }
-    
+
     @GetMapping("/{email}")
     public RestaurantDTOResponse findRestaurantByEmail(@PathVariable String email) {
         return restaurantService.getRestaurantByEmail(email);

@@ -1,9 +1,10 @@
 package com.csci318.microservice.restaurant.Repositories;
 
-import com.csci318.microservice.restaurant.Entities.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.csci318.microservice.restaurant.Domain.Entities.Restaurant;
 
 import java.util.Optional;
 import java.util.UUID;

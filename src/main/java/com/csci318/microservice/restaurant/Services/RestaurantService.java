@@ -3,8 +3,8 @@ package com.csci318.microservice.restaurant.Services;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
-import com.csci318.microservice.restaurant.Entities.Relations.Address;
-import com.csci318.microservice.restaurant.Entities.Relations.FeedbackEvent;
+import com.csci318.microservice.restaurant.Domain.Relations.Address;
+import com.csci318.microservice.restaurant.Domain.Relations.FeedbackEvent;
 
 import java.util.List;
 import java.util.UUID;

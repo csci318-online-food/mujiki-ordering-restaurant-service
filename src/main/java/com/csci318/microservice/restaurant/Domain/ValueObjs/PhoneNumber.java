@@ -1,4 +1,4 @@
-package com.csci318.microservice.restaurant.Entities.ObjValue;
+package com.csci318.microservice.restaurant.Domain.ValueObjs;
 
 import jakarta.persistence.Embeddable;
 import lombok.Value;

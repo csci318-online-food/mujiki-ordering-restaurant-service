@@ -1,4 +1,4 @@
-package com.csci318.microservice.restaurant.Entities.Relations;
+package com.csci318.microservice.restaurant.Domain.Relations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
