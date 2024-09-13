@@ -8,6 +8,7 @@ import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
 import com.csci318.microservice.restaurant.Entities.Events.RestaurantEvent;
 import com.csci318.microservice.restaurant.Entities.Relations.Address;
+import com.csci318.microservice.restaurant.Entities.Relations.FeedbackEvent;
 import com.csci318.microservice.restaurant.Entities.Restaurant;
 import com.csci318.microservice.restaurant.Exceptions.ServiceExceptionHandler.ErrorTypes;
 import com.csci318.microservice.restaurant.Exceptions.ServiceExceptionHandler.ServiceException;
@@ -86,18 +87,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantDTOResponse updateRating(UUID id, double rating) {
+    public RestaurantDTOResponse updateRating(UUID id, FeedbackEvent feedbackEvent) {
         try {
-            log.info("Updating rating for restaurant with id: {} to {}", id, rating);
+            log.info("Updating rating for restaurant with id: {} to {}", id, feedbackEvent);
             Restaurant restaurant = restaurantRepository.findById(id)
                     .orElseThrow(() -> new ServiceException(ErrorTypes.RESTAURANT_NOT_FOUND.getMessage(), null, ErrorTypes.RESTAURANT_NOT_FOUND));
 
-            restaurant.setRating(rating);
+            restaurant.setRating(feedbackEvent.getAverageRating());
             Restaurant updatedRestaurant = restaurantRepository.save(restaurant);
             RestaurantDTOResponse responseDTO = this.restaurantMapper.toDtos(updatedRestaurant);
 
             log.info("Rating updated successfully for restaurant with id: {}", updatedRestaurant.getId());
-            publishRestaurantEvent(updatedRestaurant, "update_rating", "Rating updated to: " + rating);
+            publishRestaurantEvent(updatedRestaurant, "update_rating", "Rating updated to: " + feedbackEvent.getAverageRating());
             return responseDTO;
 
         } catch (ServiceException e) {

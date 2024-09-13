@@ -5,6 +5,7 @@ import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
 import com.csci318.microservice.restaurant.Entities.Relations.Address;
+import com.csci318.microservice.restaurant.Entities.Relations.FeedbackEvent;
 import com.csci318.microservice.restaurant.Entities.Restaurant;
 import com.csci318.microservice.restaurant.Services.RestaurantService;
 import org.springframework.http.HttpStatus;
@@ -92,9 +93,9 @@ public class RestaurantController {
         return restaurantService.getAddressByRestaurant(restaurantId);
     }
 
-    @PutMapping("{id}/rating/{rating}")
-    public ResponseEntity<RestaurantDTOResponse> updateRating(@PathVariable UUID id, @PathVariable double rating) {
-        RestaurantDTOResponse updatedRestaurant = restaurantService.updateRating(id, rating);
+    @PutMapping("{id}/rating")
+    public ResponseEntity<RestaurantDTOResponse> updateRating(@PathVariable UUID id, @RequestBody FeedbackEvent feedbackEvent) {
+        RestaurantDTOResponse updatedRestaurant = restaurantService.updateRating(id, feedbackEvent);
         return ResponseEntity.ok(updatedRestaurant);
     }
 

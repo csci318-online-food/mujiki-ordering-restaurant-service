@@ -4,6 +4,7 @@ import com.csci318.microservice.restaurant.DTOs.RestaurantDTOFilterRequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTORequest;
 import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
 import com.csci318.microservice.restaurant.Entities.Relations.Address;
+import com.csci318.microservice.restaurant.Entities.Relations.FeedbackEvent;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,5 +18,5 @@ public interface RestaurantService {
     RestaurantDTOResponse getRestaurantByEmail(String email);
     Address getAddressByRestaurant(UUID restaurantId);
     RestaurantDTOResponse getRestaurantById(UUID id);
-    RestaurantDTOResponse updateRating(UUID id, double rating);
+    RestaurantDTOResponse updateRating(UUID id, FeedbackEvent feedbackEvent);
 }
