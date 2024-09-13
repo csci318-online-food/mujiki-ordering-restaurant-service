@@ -6,8 +6,8 @@ import lombok.Value;
 @Value
 @Embeddable
 public class PhoneNumber {
-    private String countryCode;
-    private String number;
+    private final String countryCode;
+    private final String number;
 
     public PhoneNumber(String countryCode, String number) {
         this.countryCode = countryCode;
