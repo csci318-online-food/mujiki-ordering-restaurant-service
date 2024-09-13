@@ -75,24 +75,24 @@ public class Restaurant extends AbstractAggregateRoot<Restaurant> {
     private String createBy;
 
     // Event registration handler
-    public void registerRestaurant() {
-        RestaurantEvent event = new RestaurantEvent();
-        event.setEventName("register");
-        event.setRestaurantId(this.getId());
-        event.setRestaurantName(this.getRestaurantName());
-        event.setDetails("Restaurant registered successfully.");
-        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
-        registerEvent(event); // Method from AbstractAggregateRoot
-    }
-
-    public void updateDetails(String newName, String newAddress) {
-        this.restaurantName = newName;
-        RestaurantEvent event = new RestaurantEvent();
-        event.setEventName("update_details");
-        event.setRestaurantId(this.getId());
-        event.setRestaurantName(this.getRestaurantName());
-        event.setDetails("Details updated to: Name - " + newName + ", Address - " + newAddress);
-        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
-        registerEvent(event);  // Method from AbstractAggregateRoot
-    }
+//    public void registerRestaurant() {
+//        RestaurantEvent event = new RestaurantEvent();
+//        event.setEventName("register");
+//        event.setRestaurantId(this.getId());
+//        event.setRestaurantName(this.getRestaurantName());
+//        event.setDetails("Restaurant registered successfully.");
+//        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
+//        registerEvent(event); // Method from AbstractAggregateRoot
+//    }
+//
+//    public void updateDetails(String newName, String newAddress) {
+//        this.restaurantName = newName;
+//        RestaurantEvent event = new RestaurantEvent();
+//        event.setEventName("update_details");
+//        event.setRestaurantId(this.getId());
+//        event.setRestaurantName(this.getRestaurantName());
+//        event.setDetails("Details updated to: Name - " + newName + ", Address - " + newAddress);
+//        event.setPhoneNumber(this.getRestaurantPhone()); // Set phone number
+//        registerEvent(event);  // Method from AbstractAggregateRoot
+//    }
 }
