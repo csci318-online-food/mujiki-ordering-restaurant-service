@@ -19,5 +19,6 @@ public class PromotionDTORequest {
     private String description;
     private int percentage;
     private Timestamp expiryDate;
+    private boolean isActive;
     private int stock;
 }

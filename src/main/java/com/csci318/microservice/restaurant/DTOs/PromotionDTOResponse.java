@@ -1,8 +1,17 @@
 package com.csci318.microservice.restaurant.DTOs;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.sql.Timestamp;
 import java.util.UUID;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PromotionDTOResponse {
     private UUID id;
     private UUID restaurantId;
@@ -10,5 +19,6 @@ public class PromotionDTOResponse {
     private String description;
     private int percentage;
     private Timestamp expiryDate;
+    private boolean isActive;
     private int stock;
 }

@@ -14,11 +14,16 @@ public class PromotionMapper implements Mapper<Promotion, PromotionDTOResponse,P
 
     @Override
     public PromotionDTOResponse toDtos(Promotion entity) {
-        PromotionDTORequest promotionDto = new PromotionDTORequest();
+        PromotionDTOResponse promotionDto = new PromotionDTOResponse();
         promotionDto.setId(entity.getId());
         promotionDto.setRestaurantId(entity.getRestaurantId());
-
-        return null;
+        promotionDto.setCode(entity.getCode());
+        promotionDto.setDescription(entity.getDescription());
+        promotionDto.setExpiryDate(entity.getExpiryDate());
+        promotionDto.setActive(entity.isActive());
+        promotionDto.setPercentage(entity.getPercentage());
+        promotionDto.setStock(entity.getStock());
+        return promotionDto;
     }
 
     @Override

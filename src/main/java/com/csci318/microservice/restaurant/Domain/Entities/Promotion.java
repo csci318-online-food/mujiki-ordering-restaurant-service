@@ -38,6 +38,9 @@ public class Promotion {
     @Column(name = "expiry_date")
     private Timestamp expiryDate;
 
+    @Column(name = "is_active")
+    private boolean isActive = false;
+
     @Column(name = "stock")
     private int stock;
 

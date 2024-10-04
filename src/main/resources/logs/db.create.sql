@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS promotion (
     discount_code VARCHAR(255),
     description TEXT,
     expiry_date DATE,
+    is_active BOOLEAN DEFAULT FALSE,
     percentage INT,
     create_at timestamp,
     stock INT
