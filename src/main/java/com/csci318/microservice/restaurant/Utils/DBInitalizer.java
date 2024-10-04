@@ -65,5 +65,7 @@ public class DBInitalizer implements CommandLineRunner {
             restaurantRepository.save(restaurant1);
             restaurantRepository.save(restaurant2);
         }
+
+
     }
 }

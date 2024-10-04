@@ -52,3 +52,14 @@ CREATE TABLE restaurant_event (
   country_code VARCHAR(255),
   number VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS promotion (
+    id UUID PRIMARY KEY,
+    restaurant_id UUID,
+    discount_code VARCHAR(255),
+    description TEXT,
+    expiry_date DATE,
+    percentage INT,
+    create_at timestamp,
+    stock INT
+)
