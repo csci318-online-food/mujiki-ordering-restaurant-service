@@ -1,7 +1,7 @@
 # Spring Configuration
 spring:
   application:
-    name: user
+    name: restaurant
   h2:
     console:
       enabled: true
@@ -19,6 +19,17 @@ spring:
   liquibase:
     change-log: classpath:logs/db.changelog-master.xml
     enabled: true
+
+  # Spring Cloud Stream - Kafka Configuration
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092  # Kafka broker location, can be a list for multiple brokers
+      bindings:
+        handleFeedbackEvent-in-0:
+          destination: mujikiFeedbackEvent  # Topic for Mujiki Feedback Events
+          content-type: application/json    # Content type for messages
 
 # API Configuration
 api:
