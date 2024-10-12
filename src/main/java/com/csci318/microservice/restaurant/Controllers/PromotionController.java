@@ -2,7 +2,8 @@ package com.csci318.microservice.restaurant.Controllers;
 
 import com.csci318.microservice.restaurant.DTOs.PromotionDTORequest;
 import com.csci318.microservice.restaurant.DTOs.PromotionDTOResponse;
-import com.csci318.microservice.restaurant.Services.Impl.PromotionService;
+import com.csci318.microservice.restaurant.Services.PromotionService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/promotion")
+@RequestMapping("${api.endpoint.base-url}/promotion")
 public class PromotionController {
 
     private final PromotionService promotionService;

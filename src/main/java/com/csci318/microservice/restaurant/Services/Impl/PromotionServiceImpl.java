@@ -2,27 +2,38 @@ package com.csci318.microservice.restaurant.Services.Impl;
 
 import com.csci318.microservice.restaurant.DTOs.PromotionDTORequest;
 import com.csci318.microservice.restaurant.DTOs.PromotionDTOResponse;
+import com.csci318.microservice.restaurant.DTOs.RestaurantDTOResponse;
 import com.csci318.microservice.restaurant.Domain.Entities.Promotion;
 import com.csci318.microservice.restaurant.Domain.Services.PromotionTracker;
 import com.csci318.microservice.restaurant.Mappers.Impl.PromotionMapper;
 import com.csci318.microservice.restaurant.Repositories.PromotionRepository;
+import com.csci318.microservice.restaurant.Services.PromotionService;
+import com.csci318.microservice.restaurant.Services.RestaurantService;
+
 import jakarta.transaction.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
-public class PromotionService {
+public class PromotionServiceImpl implements PromotionService {
 
     private final PromotionRepository promotionRepository;
     private final PromotionMapper promotionMapper;
+    private final RestaurantService restaurantService;
+
     private final PromotionTracker promotionTracker;
 
-    public PromotionService(PromotionRepository promotionRepository, PromotionMapper promotionMapper) {
+    public PromotionServiceImpl(PromotionRepository promotionRepository, PromotionMapper promotionMapper, RestaurantService restaurantService) {
         this.promotionRepository = promotionRepository;
         this.promotionMapper = promotionMapper;
+        this.restaurantService = restaurantService;
+
         this.promotionTracker = new PromotionTracker();
     }
 
@@ -32,6 +43,13 @@ public class PromotionService {
     @Transactional
     public PromotionDTOResponse createPromotion(PromotionDTORequest promotion) {
         try {
+            RestaurantDTOResponse restaurant = restaurantService.getRestaurantById(
+                promotion.getRestaurantId()
+            );
+            if (restaurant == null) {
+                throw new RuntimeException("Invalid restaurant ID.");
+            }
+
             Promotion promotionEntity = new Promotion();
             promotionEntity.setId(UUID.randomUUID());
             promotionEntity.setRestaurantId(promotion.getRestaurantId());
@@ -49,7 +67,7 @@ public class PromotionService {
             PromotionDTOResponse promotionDTOResponse = this.promotionMapper.toDtos(promotionEntity);
             return promotionDTOResponse;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create promotion");
+            throw new RuntimeException("Failed to create promotion", e);
         }
     }
 
