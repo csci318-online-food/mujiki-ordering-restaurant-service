@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/promotions")
+@RequestMapping("/api/promotion")
 public class PromotionController {
 
     private final PromotionService promotionService;
@@ -20,7 +20,7 @@ public class PromotionController {
         this.promotionService = promotionService;
     }
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     @ManagedOperation(description = "Create a new promotion")
     public ResponseEntity<PromotionDTOResponse> createPromotion(@RequestBody PromotionDTORequest promotionDTORequest) {
         PromotionDTOResponse responseDTO = this.promotionService.createPromotion(promotionDTORequest);
@@ -41,4 +41,10 @@ public class PromotionController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @PostMapping("/apply/{promotionId}")
+    @ManagedOperation(description = "Apply promotion")
+    public ResponseEntity<PromotionDTOResponse> applyPromotion(@PathVariable UUID promotionId) {
+        PromotionDTOResponse responseDTO = this.promotionService.applyPromotion(promotionId);
+        return ResponseEntity.ok(responseDTO);
+    }
 }

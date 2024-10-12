@@ -21,6 +21,7 @@ public class SecurityConfig {
             "/error",
             "/h2-console/**",
             "/api/restaurant/**",
+            "/api/promotion/**",
     };
 
     // CORS configuration

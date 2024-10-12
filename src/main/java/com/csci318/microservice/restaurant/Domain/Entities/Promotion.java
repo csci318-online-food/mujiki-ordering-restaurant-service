@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -36,12 +36,17 @@ public class Promotion {
     private int percentage;
 
     @Column(name = "expiry_date")
-    private Timestamp expiryDate;
+    private LocalDateTime expiryDate;
 
     @Column(name = "is_active")
     private boolean isActive = false;
 
     @Column(name = "stock")
     private int stock;
+
+    public int decrementStock() {
+        --stock;
+        return stock;
+    }
 
 }

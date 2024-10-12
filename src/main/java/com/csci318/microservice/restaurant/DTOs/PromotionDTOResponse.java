@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class PromotionDTOResponse {
     private String code;
     private String description;
     private int percentage;
-    private Timestamp expiryDate;
+    private LocalDateTime expiryDate;
     private boolean isActive;
     private int stock;
 }
