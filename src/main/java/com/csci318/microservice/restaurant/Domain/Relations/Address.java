@@ -1,6 +1,5 @@
 package com.csci318.microservice.restaurant.Domain.Relations;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

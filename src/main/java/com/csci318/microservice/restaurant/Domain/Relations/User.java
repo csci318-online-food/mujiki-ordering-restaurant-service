@@ -1,13 +1,11 @@
 package com.csci318.microservice.restaurant.Domain.Relations;
 
 import com.csci318.microservice.restaurant.Constants.Roles;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @AllArgsConstructor

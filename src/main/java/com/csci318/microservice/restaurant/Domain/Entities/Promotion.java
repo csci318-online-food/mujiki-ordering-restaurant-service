@@ -1,5 +1,7 @@
 package com.csci318.microservice.restaurant.Domain.Entities;
 
+import com.csci318.microservice.restaurant.Utils.Annotations.ManyToOne;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class Promotion {
     private UUID id;
 
     @Column(name = "restaurant_id")
+    @ManyToOne(targetEntity = Restaurant.class)
     private UUID restaurantId;
 
     @Column(name = "discount_code")
